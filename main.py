@@ -21,16 +21,16 @@ st.set_page_config(page_title="RAG Project")
 # Chat Title
 st.title("RAG Project")
 
-
 def load_api_keys():
     """Load API keys from environment variable if available else fetch keys from JSON file."""
-    with open("api_keys.json", "r") as f:
-        api_keys = json.load(f)
-        os.environ['GROQ_API_KEY'] = api_keys.get('GROQ_API_KEY')
-        os.environ['NOMIC_API_KEY'] = api_keys.get('NOMIC_API_KEY')
-
+    if os.getenv('GROQ_API_KEY') and os.getenv('NOMIC_API_KEY'):
         os.environ['GROQ_API_KEY'] = os.getenv('GROQ_API_KEY')
         os.environ['NOMIC_API_KEY'] = os.getenv('NOMIC_API_KEY')
+    else:
+        with open("api_keys.json", "r") as f:
+            api_keys = json.load(f)
+            os.environ['GROQ_API_KEY'] = api_keys.get('GROQ_API_KEY')
+            os.environ['NOMIC_API_KEY'] = api_keys.get('NOMIC_API_KEY')
 
 
 # Load API keys
